@@ -3,10 +3,42 @@
  */
 package net.sridharan.sample;
 
+import net.sridharan.Log;
+import org.jspecify.annotations.Nullable;
+
 public class Library {
     public boolean someLibraryMethod() {
 
         Object x = null;
         return true;//x.hashCode() == 0;
+    }
+
+    public enum SomeEnum {
+        A,
+        B,
+    }
+
+    public int exhaustiveSwitch(SomeEnum e) {
+        String s = null;
+//        switch (e) {
+//            case A -> {
+//                s = "A";
+//            }
+//            case B -> throw new RuntimeException();
+//        }
+        switch (e) {
+            case A:
+                s = "A";
+                break;
+            case B:
+                throw new RuntimeException();
+        }
+        return 0;
+        //return s.length(); // <-- warning: [NullAway] dereferenced expression s is @Nullable
+    }
+
+    static final String TAG = "AnotherTest";
+    public static void callLog(@Nullable Object message) {
+        Log.d(TAG, "Got message: %s!", message);
     }
 }
