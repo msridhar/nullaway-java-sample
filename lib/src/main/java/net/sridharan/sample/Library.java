@@ -7,6 +7,6 @@ public class Library {
     public boolean someLibraryMethod() {
 
         Object x = null;
-        return x.hashCode() == 0;
+        return true;//x.hashCode() == 0;
     }
 }
