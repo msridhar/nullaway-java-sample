@@ -40,14 +40,12 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.errorprone {
+        disableAllChecks = true
+        // Enable NullAway
+        warn("NullAway")
+        // uncomment to make NullAway fail the build
+        error("NullAway")
         option("NullAway:AnnotatedPackages", "net.sridharan")
         option("NullAway:JSpecifyMode", "true")
-    }
-}
-tasks.compileJava {
-    options.errorprone {
-        disableAllChecks = true
-        // NullAway defaults to warning level.  Bump it to error by uncommenting the line below
-        //error("NullAway")
     }
 }
