@@ -23,18 +23,33 @@ dependencies {
     implementation 'org.jspecify:jspecify:1.0.0'
     // use guava 33.4.8-jre
     implementation 'com.google.guava:guava:33.4.8-jre'
+    implementation 'com.uber.nullaway:nullaway-annotations:0.13.1'
+    implementation 'org.jetbrains:annotations:24.0.1'
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
 
-    errorprone("com.google.errorprone:error_prone_core:2.37.0")
-    errorprone("com.uber.nullaway:nullaway:0.12.6")
-    //errorprone("com.uber.nullaway:nullaway:0.12.7-SNAPSHOT")
+    errorprone("com.google.errorprone:error_prone_core:2.48.0")
+    //errorprone("com.uber.nullaway:nullaway:0.12.9")
+    errorprone("com.uber.nullaway:nullaway:0.13.1")
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "com.uber.nullaway") {
+                useVersion("+")
+            }
+        }
+        cacheChangingModulesFor(0, "seconds")
+        cacheDynamicVersionsFor(0, "seconds")
+    }
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -42,7 +57,7 @@ tasks.withType(JavaCompile).configureEach {
     options.errorprone {
         disableAllChecks = true
         // Enable NullAway
-        warn("NullAway")
+        //warn("NullAway")
         // uncomment to make NullAway fail the build
         error("NullAway")
         option("NullAway:AnnotatedPackages", "net.sridharan")
